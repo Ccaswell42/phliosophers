@@ -28,16 +28,19 @@ void init_philo(t_data *data)
 	while (i < n)
 	{
 		ph[i].id = s;
-		ph[i].
-
+		if (s != 1)
+			ph[i].right_fork = (s - 1);
+		else 
+			ph[i].right_fork = n;
+		ph[i].left_fork = s;
+		ph[i].last_time_eat = 1488;
+		i++;
+		s++;
 	}
 }
 
-
-
 int create_philo(t_data *data)
 {
-	int num;
 	int i;
 	t_philo *philo;
 
@@ -46,9 +49,50 @@ int create_philo(t_data *data)
 
 	while (i < data->num_philo)
 	{
+		printf("%d\n", philo[i].id);
 		if (pthread_create(&philo[i].thread, 0, func, &philo[i]))
 			return (1);
 		i++;
-
 	}
+	return (0);
+}
+
+int init_mutex(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->num_philo)
+	{
+		if (pthread_mutex_init(&data->forks[i], 0))
+			return (1);
+		i++;
+	}
+	if (pthread_mutex_init(&data->print, 0))
+			return (1);
+	return (0);
+}
+
+void init_forks(t_data *data)
+{
+	int i;
+	int n;
+	int s;
+	t_philo *ph;
+	
+	s = 1;
+	n = data->num_philo;
+	i = 0;
+	ph = data->philo;
+	while (i < n)
+	{
+		if (s != 1)
+			ph[i].right_mut = data->forks[s - 2];
+		else 
+			ph[i].right_mut = data->forks[n - 1];
+		ph[i].left_mut = data->forks[s - 1];
+		i++;
+		s++;
+	}
+
 }
