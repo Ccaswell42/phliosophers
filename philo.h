@@ -7,6 +7,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+struct s_data;
 
 typedef struct s_philo
 {
@@ -16,8 +17,10 @@ typedef struct s_philo
 	int				eat_count;
 	long long		last_time_eat;
 	pthread_t		thread;
-	pthread_mutex_t  left_mut;
-	pthread_mutex_t  right_mut;
+	pthread_mutex_t  *max_mut;
+	pthread_mutex_t  *min_mut;
+	pthread_mutex_t  *pront;
+	struct s_data    *inf;
 }		t_philo;
 
 typedef struct s_data
@@ -42,4 +45,5 @@ int create_philo(t_data *data);
 void *func(void *data);
 int init_mutex(t_data *data);
 void init_forks(t_data *data);
+int all_join(t_data *data);
 #endif

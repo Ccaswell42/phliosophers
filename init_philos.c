@@ -8,9 +8,9 @@ t_data	*init_data(char **argv)
 	if (!data)
 		return (NULL);
 	data->num_philo = ft_atoi(argv[1]);
-	data->time_death = ft_atoi(argv[2]);
-	data->time_eat = ft_atoi(argv[3]);
-	data->time_sleep = ft_atoi(argv[4]);
+	data->time_death = (ft_atoi(argv[2]) * 1000);
+	data->time_eat = (ft_atoi(argv[3])* 1000);
+	data->time_sleep = (ft_atoi(argv[4])* 1000);
 	return (data);
 }
 
@@ -33,7 +33,8 @@ void init_philo(t_data *data)
 		else 
 			ph[i].right_fork = n;
 		ph[i].left_fork = s;
-		ph[i].last_time_eat = 1488;
+		ph[i].inf = data;
+		ph[i].last_time_eat = 1488; ////
 		i++;
 		s++;
 	}
@@ -49,7 +50,6 @@ int create_philo(t_data *data)
 
 	while (i < data->num_philo)
 	{
-		printf("%d\n", philo[i].id);
 		if (pthread_create(&philo[i].thread, 0, func, &philo[i]))
 			return (1);
 		i++;
@@ -87,12 +87,17 @@ void init_forks(t_data *data)
 	while (i < n)
 	{
 		if (s != 1)
-			ph[i].right_mut = data->forks[s - 2];
+		{
+			ph[i].min_mut = &data->forks[i - 1];
+			ph[i].max_mut = &data->forks[i];
+		}
 		else 
-			ph[i].right_mut = data->forks[n - 1];
-		ph[i].left_mut = data->forks[s - 1];
+		{
+			ph[i].min_mut = &data->forks[0];
+			ph[i].max_mut = &data->forks[n - 1];
+		}
+		ph[i].pront = &data->print;
 		i++;
 		s++;
 	}
-
 }
