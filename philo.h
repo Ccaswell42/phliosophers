@@ -29,6 +29,7 @@ typedef struct s_data
 	int  time_eat;
 	int  time_sleep;
 	int  time_death;
+	long long start_time;
 	t_philo		philo[200];
 	pthread_mutex_t forks[200];
 	pthread_mutex_t  print;
@@ -46,4 +47,6 @@ void *func(void *data);
 int init_mutex(t_data *data);
 void init_forks(t_data *data);
 int all_join(t_data *data);
+long long	current_timestamp(void);
+void die_check(t_philo *philo);
 #endif

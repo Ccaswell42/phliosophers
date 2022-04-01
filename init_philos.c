@@ -7,6 +7,7 @@ t_data	*init_data(char **argv)
 	data = malloc(sizeof(data));
 	if (!data)
 		return (NULL);
+	data->start_time = current_timestamp();
 	data->num_philo = ft_atoi(argv[1]);
 	data->time_death = (ft_atoi(argv[2]) * 1000);
 	data->time_eat = (ft_atoi(argv[3])* 1000);
@@ -34,7 +35,7 @@ void init_philo(t_data *data)
 			ph[i].right_fork = n;
 		ph[i].left_fork = s;
 		ph[i].inf = data;
-		ph[i].last_time_eat = 1488; ////
+		ph[i].last_time_eat = 1488228; ////
 		i++;
 		s++;
 	}
