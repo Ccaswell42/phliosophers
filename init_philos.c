@@ -10,8 +10,15 @@ t_data	*init_data(char **argv)
 	data->start_time = current_timestamp();
 	data->num_philo = ft_atoi(argv[1]);
 	data->time_death = (ft_atoi(argv[2]) * 1000);
-	data->time_eat = (ft_atoi(argv[3])* 1000);
-	data->time_sleep = (ft_atoi(argv[4])* 1000);
+	data->time_eat = (ft_atoi(argv[3]) * 1000);
+	data->time_sleep = (ft_atoi(argv[4]) * 1000);
+	data->death_flag = 0;
+	if (pthread_create(&data->death_check, 0, die_checker, data))
+			return (NULL);
+	if (pthread_mutex_init(&data->for_death, 0))
+			return (NULL);
+	if (pthread_mutex_init(&data->last_time, 0))
+			return (NULL);
 	return (data);
 }
 
@@ -35,7 +42,7 @@ void init_philo(t_data *data)
 			ph[i].right_fork = n;
 		ph[i].left_fork = s;
 		ph[i].inf = data;
-		ph[i].last_time_eat = 1488228; ////
+		ph[i].last_time_eat = data->start_time + data->time_eat; ////
 		i++;
 		s++;
 	}
@@ -97,7 +104,6 @@ void init_forks(t_data *data)
 			ph[i].min_mut = &data->forks[0];
 			ph[i].max_mut = &data->forks[n - 1];
 		}
-		ph[i].pront = &data->print;
 		i++;
 		s++;
 	}

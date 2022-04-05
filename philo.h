@@ -33,6 +33,10 @@ typedef struct s_data
 	t_philo		philo[200];
 	pthread_mutex_t forks[200];
 	pthread_mutex_t  print;
+	pthread_mutex_t  for_death;
+	pthread_t		death_check;
+	int				death_flag;
+	pthread_mutex_t last_time;
 
 }	t_data;
 
@@ -49,4 +53,5 @@ void init_forks(t_data *data);
 int all_join(t_data *data);
 long long	current_timestamp(void);
 void die_check(t_philo *philo);
+void *die_checker(void *dasa);
 #endif
