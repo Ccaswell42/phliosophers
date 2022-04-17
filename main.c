@@ -1,28 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccaswell <ccaswell@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/08 12:22:59 by ccaswell          #+#    #+#             */
+/*   Updated: 2022/04/12 16:52:35 by ccaswell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
+	t_data	*data;
+
 	if ((argc != 5) && (argc != 6))
 		return (1);
-	t_data *data;
-
-	data = init_data(argv);
-	init_philo(data);
-	printf("NACHALO:\n");
-	init_mutex(data);
-	init_forks(data);
-
-	create_philo(data);
+	data = all_init(argc, argv);
+	if (!data)
+	{
+		free(data);
+		return (1);
+	}
 	all_join(data);
-	printf("KONEC\n");
 	free(data);
 }
-
-// printf("%p\n", data->philo[0].left_mut);
-	//  printf("%p\n", data->philo[0].right_mut);
-	// printf("%p\n", &data->forks[0]);
-	// printf("%p\n", &data->forks[1]);
-	// printf("%p\n", &data->forks[2]);
-	// printf("%p\n", &data->forks[3]);
-	// printf("%p\n", &data->forks[4]);
